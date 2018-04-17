@@ -12,7 +12,7 @@
 
 #include "wolf3d.h"
 
-int main(int ac, char **av)
+int	main(int ac, char **av)
 {
 	t_env	e;
 
@@ -24,6 +24,5 @@ int main(int ac, char **av)
 	e.input = av[1];
 	read_params(&e);
 	print_table(e);
-	while (1){}
 	return (0);
 }

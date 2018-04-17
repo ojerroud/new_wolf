@@ -82,6 +82,7 @@ typedef struct 		s_mlx
 	void			*win;
 	void			*img;
 }					t_mlx;
+
 typedef struct		s_env
 {
 	t_mlx			mlx;

@@ -72,5 +72,5 @@ void		read_params(t_env *e)
 	if ((fd = open(e->input, O_RDONLY)) == -1)
 		error("cannot open map");
 	read_lines(e, fd);
-	close (fd);
+	close(fd);
 }
