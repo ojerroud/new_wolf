@@ -18,7 +18,7 @@ $(HOME)/.brew/Cellar/sdl2/2.0.7/lib -lSDL2
 MINIFLAGS =-framework OpenGL -framework AppKit
 SCRIPTDIR = scripts/
 OBJDIR := obj/
-OBJS := $(addprefix $(OBJDIR)/,main.o read.o error.o test.o init.o)
+OBJS := $(addprefix $(OBJDIR)/,main.o read.o error.o test.o init.o key.o move.o)
 
 $(OBJDIR)/%.o : %.c
 	$(CC) $(vpath_h) -Wall -Wextra -Werror -c \

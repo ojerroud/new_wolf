@@ -12,10 +12,8 @@
 
 #include "wolf3d.h"
 
-static void	read_map(t_env *e, int fd)
+static void	read_map(t_env *e, int fd, char *line, char **tab)
 {
-	char	*line;
-	char	**tab;
 	int		i;
 	int		j;
 	int		ret;
@@ -24,30 +22,37 @@ static void	read_map(t_env *e, int fd)
 	i = -1;
 	while ((ret = get_next_line(fd, &line)) > 0)
 	{
+		(i >= e->map.height) ? error("wrong map") : 0;
 		e->map.tab[++i] = (int *)malloc(sizeof(int) * e->map.width);
 		tab = ft_strsplit(line, ' ');
 		ft_strdel(&line);
 		j = -1;
-		while (++j < e->map.width)
+		while (tab[++j])
 		{
+			(j >= e->map.width) ? error("wrong map") : 0;
 			e->map.tab[i][j] = ft_atoi(tab[j]);
 			ft_strdel(&tab[j]);
 		}
+		(j != e->map.width) ? error("wrong map") : 0;
 		free(tab);
 	}
-	if (ret == -1)
-		error("gnl");
+	(i + 1 != e->map.height) ? error("wrong map") : 0;
+	(ret == -1) ? error("gnl") : 0;
 }
 
-static void	read_first_line(t_env *e, int fd)
+static void	read_first_line(t_env *e, int fd, char *line, char **tab)
 {
-	char	*line;
-	char	**tab;
 	int		i;
+	int		cpt;
 
 	if (get_next_line(fd, &line) < 1)
 		error("file empty");
 	tab = ft_strsplit(line, ' ');
+	cpt = 0;
+	while (tab[cpt])
+		cpt++;
+	if (cpt != 4)
+		error("wrong first line (4 integers expected: width height posx posy)");
 	ft_strdel(&line);
 	e->map.width = ft_atoi(tab[0]);
 	e->map.height = ft_atoi(tab[1]);
@@ -61,8 +66,13 @@ static void	read_first_line(t_env *e, int fd)
 
 static void	read_lines(t_env *e, int fd)
 {
-	read_first_line(e, fd);
-	read_map(e, fd);
+	char	*line;
+	char	**tab;
+
+	line = NULL;
+	tab = NULL;
+	read_first_line(e, fd, line, tab);
+	read_map(e, fd, line, tab);
 }
 
 void		read_params(t_env *e)
