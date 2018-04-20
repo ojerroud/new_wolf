@@ -56,8 +56,13 @@ static void	read_first_line(t_env *e, int fd, char *line, char **tab)
 	ft_strdel(&line);
 	e->map.width = ft_atoi(tab[0]);
 	e->map.height = ft_atoi(tab[1]);
-	e->player.pos.x = ft_atoi(tab[2]);
-	e->player.pos.y = ft_atoi(tab[3]);
+	e->player.pos.x = ft_atoi(tab[2]) - 0.5;
+	e->player.pos.y = ft_atoi(tab[3]) - 0.5;
+	(e->player.pos.x < 1) ? e->player.pos.x = 1 : 0;
+	(e->player.pos.x > e->map.width) ? e->player.pos.x = e->map.width : 0;
+	(e->player.pos.y < 1) ? e->player.pos.y = 1 : 0;
+	(e->player.pos.y > e->map.height) ? e->player.pos.y = e->map.height : 0;
+	printf("[%.0f][%.0f]\n", e->player.pos.x, e->player.pos.y);
 	i = -1;
 	while (tab[++i])
 		ft_strdel(&tab[i]);
@@ -73,6 +78,12 @@ static void	read_lines(t_env *e, int fd)
 	tab = NULL;
 	read_first_line(e, fd, line, tab);
 	read_map(e, fd, line, tab);
+	printf("[%d][%d]\n", (int)(e->player.pos.x - 0.5), (int)(e->player.pos.y
+	- 0.5));
+	if (e->map.tab[(int)(e->player.pos.y - 1.5)][(int)(e->player.pos.x - 1.5)]
+		!= 0 && e->map.tab[(int)(e->player.pos.y - 0.5)][(int)(e->player.pos.x
+			- 0.5)] != 0)
+		error("player on a wall");
 }
 
 void		read_params(t_env *e)

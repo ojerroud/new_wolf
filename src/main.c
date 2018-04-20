@@ -24,7 +24,6 @@ int	main(int ac, char **av)
 	e.input = av[1];
 	read_params(&e);
 	init_env(&e);
-	e.mlx.win = mlx_new_window(e.mlx.mlx, WIDTH, HEIGHT, "wolfy");
 	print_table(e);
 	mlx_do_key_autorepeatoff(e.mlx.mlx);
 	mlx_loop_hook(e.mlx.mlx, loop_hook, &e);

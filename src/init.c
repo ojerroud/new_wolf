@@ -12,7 +12,7 @@
 
 #include "wolf3d.h"
 
-static void	init_player(t_env *e)
+static void		init_player(t_env *e)
 {
 	e->player.dir.x = -1;
 	e->player.dir.y = 0;
@@ -32,11 +32,12 @@ static void		init_mlx(t_env *e)
 	int tmp;
 
 	e->mlx.mlx = mlx_init();
+	e->mlx.win = mlx_new_window(e->mlx.mlx, WIDTH, HEIGHT, "wolfy");
 	e->mlx.img = mlx_new_image(e->mlx.mlx, WIDTH, HEIGHT);
 	e->mlx.pxl = (int *)mlx_get_data_addr(e->mlx.img, &tmp, &tmp, &tmp);
 }
 
-void		init_env(t_env *e)
+void			init_env(t_env *e)
 {
 	init_player(e);
 	init_mlx(e);

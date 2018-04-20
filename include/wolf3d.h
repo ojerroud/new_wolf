@@ -22,8 +22,8 @@
 # include "mlx.h"
 # include "libft.h"
 
-# define WIDTH		800
-# define HEIGHT		600
+# define WIDTH		512
+# define HEIGHT		384
 # define WALL_SIZE	64
 
 /*
@@ -42,7 +42,7 @@
 
 # define RED_CROSS 		17
 # define RED_CROSS_MASK (1L << 1)
-# define KEY_PRESS 2
+# define KEY_PRESS		2
 # define KEY_PRESS_MASK (1L << 0)
 
 /*
@@ -54,19 +54,19 @@ typedef enum		e_texture
 	DEEP = 0,
 	FLOOR = 1,
 	WALL = 2,
-	// SIGN = 3,
-	// HOUSES = 4,
-	// FENCE = 5,
-	// WATER = 6,
-	// COMPUTER = 7,
-	// TABLE = 8,
-	// BED = 9,
-	// CONSOLE = 10,
-	// TV = 11,
-	// TREE = 12,
+	SIGN = 3,
+	HOUSES = 4,
+	FENCE = 5,
+	WATER = 6,
+	COMPUTER = 7,
+	TABLE = 8,
+	BED = 9,
+	CONSOLE = 10,
+	TV = 11,
+	TREE = 12,
 	TP = 13,
-	// FURNITURE = 14,
-	// CHAIR = 15,
+	FURNITURE = 14,
+	CHAIR = 15,
 	LAST
 }					t_texture;
 
@@ -84,8 +84,8 @@ typedef struct		s_dxy
 
 typedef struct		s_player
 {
-	t_ixy			pos;
-	t_ixy			dir;
+	t_dxy			pos;
+	t_dxy			dir;
 	t_dxy			plane;
 	int				z;
 	double			speed_turn;
@@ -116,7 +116,7 @@ typedef struct		s_mlx
 	int				*pxl;
 }					t_mlx;
 
-typedef struct 		s_text
+typedef struct		s_text
 {
 	size_t			color_sky;
 	size_t			color_wall;
@@ -168,7 +168,6 @@ void				move_up(t_env *e);
 void				move_down(t_env *e);
 void				move_right(t_env *e);
 void				move_left(t_env *e);
-
 
 /*
 **	test.c ============================== a supprimer
