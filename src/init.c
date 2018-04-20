@@ -34,7 +34,7 @@ static void		init_mlx(t_env *e)
 	e->mlx.mlx = mlx_init();
 	e->mlx.win = mlx_new_window(e->mlx.mlx, WIDTH, HEIGHT, "wolfy");
 	e->mlx.img = mlx_new_image(e->mlx.mlx, WIDTH, HEIGHT);
-	e->mlx.pxl = (int *)mlx_get_data_addr(e->mlx.img, &tmp, &tmp, &tmp);
+	e->mlx.pxl = (int *)mlx_get_data_addr(e->mlx.img, &tmp, &(e->mlx.s_line), &tmp);
 }
 
 void			init_env(t_env *e)

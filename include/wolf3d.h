@@ -98,7 +98,15 @@ typedef struct		s_player
 
 typedef struct		s_ray
 {
-	t_ixy	map;
+	t_dxy			dir;
+	t_dxy			side;
+	t_dxy			delta;
+	t_ixy			map;
+	t_ixy			step;
+	double			cam;
+	double			dist;
+	int				hit;
+	int				hit_side;
 }					t_ray;
 
 typedef struct		s_map
@@ -114,6 +122,7 @@ typedef struct		s_mlx
 	void			*win;
 	void			*img;
 	int				*pxl;
+	int				s_line;
 }					t_mlx;
 
 typedef struct		s_text
@@ -175,4 +184,10 @@ void				move_left(t_env *e);
 
 void				print_table(t_env e);
 
+/*
+**	ray.c
+*/
+
+void				raycasting(t_env *e);
+void 				draw_line(t_env * e, int x, int start, int end, double a, double b);
 #endif
