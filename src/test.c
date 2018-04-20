@@ -18,11 +18,17 @@ void	print_table(t_env e)
 	int j;
 
 	i = -1;
+	printf("[%f][%f]\n", e.player.pos.x, e.player.pos.y);
 	while (++i < e.map.height)
 	{
 		j = -1;
 		while (++j < e.map.width)
-			printf("%d ", e.map.tab[i][j]);
+		{
+			if (i == e.player.pos.y - 0.5 && j == e.player.pos.x - 0.5)
+				printf("P ");
+			else
+				printf("%d ", e.map.tab[i][j]);
+		}
 		printf("\n");
 	}
 }
