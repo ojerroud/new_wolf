@@ -3,47 +3,66 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ojerroud <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: yokartou <yokartou@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2017/09/26 16:57:41 by ojerroud          #+#    #+#              #
-#    Updated: 2017/11/08 14:16:20 by ojerroud         ###   ########.fr        #
+#    Created: 2018/03/12 21:43:25 by yokartou          #+#    #+#              #
+#    Updated: 2018/03/14 13:28:35 by yokartou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
-NAME = wolf3d
-vpath %.c src
-vpath_h =-I include -I minilibx_macos -I libft/includes \
--I $(HOME)/.brew/Cellar/sdl2/2.0.7/include/
-LIB =-L libft/ -lft -L minilibx_macos -lmlx -L \
-$(HOME)/.brew/Cellar/sdl2/2.0.7/lib -lSDL2
-MINIFLAGS =-framework OpenGL -framework AppKit
-SCRIPTDIR = scripts/
-OBJDIR := obj/
-OBJS := $(addprefix $(OBJDIR)/,main.o read.o error.o test.o init.o key.o move.o ray.o draw.o)
 
-$(OBJDIR)/%.o : %.c
-	$(CC) $(vpath_h) -Wall -Wextra -Werror -c \
-	$(OUTPUT_OPTION) $< $(CPPFLAGS) $(CFLAGS) 
+NAME = Wolf3d
 
-all : $(OBJS)
+CC = clang
+
+CFLAGS = -Wall -Werror -Wextra
+
+MLXFLAGS = -lmlx -framework OpenGL -framework AppKit
+
+SRC_DIR = srcs
+
+INC_DIR = incs
+
+OBJ_DIR = objs
+
+LIBS = -I minilibx \
+	   -I libft \
+	   -L./libft/ -lft
+
+SRC = draw.c \
+	  error.c \
+	  init.c \
+	  key.c \
+	  main.c \
+	  move.c \
+	  ray.c \
+	  read.c \
+	  #texture.c
+
+OBJ = $(SRC:%.c=objs/%.o)
+
+all : objs $(NAME)
+
+objs :
+	@mkdir objs
+
+$(NAME): $(OBJ)
 	@make -C libft/
-	@make -C minilibx_macos/
-	@$(CC) $(LIB) -o $(NAME) $(OBJS) $(MINIFLAGS) #-g -fsanitize=address
+	@make -C minilibx
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) -I $(INC_DIR) $(MLXFLAGS) $(LIBS) #-g -fsanitize=address
+	@echo "Wolf3d Done"
 
-$(OBJS): | $(OBJDIR)
+objs/%.o: $(SRC_DIR)/%.c
+	@$(CC) $(CFLAGS) -I $(INC_DIR) -o $@ -c $<
 
-$(OBJDIR):
-	@mkdir $(OBJDIR)
+clean:
+	@make -C libft/ clean
+	@make -C minilibx/ clean
+	@rm -rf objs
 
-libsdl2:
-	@sh $(SCRIPTDIR)install_brew.sh
-
-clean :
-	@make clean -C libft
-	@/bin/rm -rf $(OBJDIR)
-	@echo "clean wolf3d"
-
-fclean : clean
-	@make fclean -C libft
-	@/bin/rm -rf $(NAME) $(LIBDIR)
+fclean: clean
+	@rm -f $(NAME)
+	@make -C libft/ fclean
 
 re: fclean all
+
+.PHONY: all clean fclean re
